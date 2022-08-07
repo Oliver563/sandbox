@@ -1,11 +1,15 @@
 <form method="post" class="form-example">
     <div class="form-example">
-      <label for="name">Enter your name: </label>
-      <input type="text" name="name" id="name" required>
+    <table>
+      <tr id="r1">
+        <td id="rlc1">
+          <input type="text" id="r1c1" name="r1c1" value="{{data.r1c1}}" maxlength="1" minlength="1" 
+            size="1" pattern="[A-Z]{1}" style="text-transform: uppercase">
+        </td>
+      </tr>
+    </table>
     </div>
-    <div class="form-example">
-      <label>Hello {{name}}</label>
-    <div class="form-example">
-      <input type="submit" value="Continue">
+    <div>
+      <input type="submit" value="Continue"/>
     </div>
 </form>

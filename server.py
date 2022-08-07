@@ -8,7 +8,7 @@ env = Environment(
 
 hostName = "localhost"
 serverPort = 8080
-save_data = dict( name = "" )
+save_data = dict( r1c1 = "" )
 template = env.get_template("sandbox-template.html")
 
 class MyServer(BaseHTTPRequestHandler):
@@ -19,7 +19,7 @@ class MyServer(BaseHTTPRequestHandler):
         
     def do_GET(self):
         self._set_response()
-        self.wfile.write(bytes(template.render(name=save_data['name']), "utf-8"))
+        self.wfile.write(bytes(template.render(data=save_data), "utf-8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length']) 
@@ -27,7 +27,8 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_response(303)
         self.send_header('Location', self.path)
         self.end_headers()
-        save_data['name'] = post_data.decode('utf-8').split('=')[1]
+        save_data['r1c1'] = post_data.decode('utf-8').split('=')[1]
+        print(post_data.decode('utf-8'))
 
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
