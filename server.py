@@ -8,9 +8,14 @@ env = Environment(
 
 hostName = "localhost"
 serverPort = 8080
-save_data = dict( r1c1 = "" )
+save_data = dict( r1c1 = "", r1c2 = "", r1c3 = "" )
 template = env.get_template("sandbox-template.html")
 
+def save_data_to_dict(d):
+  row = d.split('&')
+  for cell in row:
+    save_data[cell.split('=')[0]] = cell.split('=')[1]
+  
 class MyServer(BaseHTTPRequestHandler):
     def _set_response(self):
         self.send_response(200)
@@ -27,9 +32,8 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_response(303)
         self.send_header('Location', self.path)
         self.end_headers()
-        save_data['r1c1'] = post_data.decode('utf-8').split('=')[1]
-        print(post_data.decode('utf-8'))
-
+        save_data_to_dict(post_data.decode('utf-8'))
+        
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
