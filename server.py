@@ -15,16 +15,29 @@ def save_data_to_dict(d):
   row = d.split('&')
   for cell in row:
     save_data[cell.split('=')[0]] = cell.split('=')[1]
-  
+
+f = open("./static/wordle.css", "r")
+
 class MyServer(BaseHTTPRequestHandler):
-    def _set_response(self):
+    def _set_response(self, type):
         self.send_response(200)
-        self.send_header('Content-type', 'text/html')
+        self.send_header('Content-type', type)
         self.end_headers()
         
     def do_GET(self):
-        self._set_response()
-        self.wfile.write(bytes(template.render(data=save_data), "utf-8"))
+        path = self.path
+        print(self.path)
+        if path == "/static/wordle.css":
+            type = "text/css"
+            self._set_response(type)
+            self.wfile.write(bytes(f.read(), "utf-8"))
+        elif path == "/favicon.ico":
+            type = "image/x-icon"
+            self._set_response(type)
+        else:
+            type = "text/html"
+            self._set_response(type)
+            self.wfile.write(bytes(template.render(data=save_data), "utf-8"))
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length']) 
