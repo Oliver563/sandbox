@@ -1,5 +1,7 @@
 from ast import Dict
+from asyncore import write
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from xml.dom.minidom import Document
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 env = Environment(
@@ -8,15 +10,47 @@ env = Environment(
 
 hostName = "localhost"
 serverPort = 8080
-save_data = dict( r1c1 = "", r1c2 = "", r1c3 = "" )
+save_data = [
+    #dict( c1 = "", c2 = "", c3 = "", c4 = "", c5 = "" )
+    dict( c1 = ("", "initial"), c2 =  ("", "initial"), c3 =  ("", "initial"), c4 =  ("", "initial"), c5 =  ("", "initial") )
+]
 template = env.get_template("sandbox-template.html")
+f = open("./static/wordle.css", "r")
+
+word = "WRITE"
+
+current_row = 0
 
 def save_data_to_dict(d):
-  row = d.split('&')
-  for cell in row:
-    save_data[cell.split('=')[0]] = cell.split('=')[1]
+  values = d.split('&')
+  for value in values:
+    row = int(value[1:2])
+    col = 'c' + value[3:4]
+    value = value.split('=')[1]
+    save_data[row - 1][col] = value
+  
+  evaulate()
+  save_data.append(dict( c1 = ("", "initial"), c2 =  ("", "initial"), c3 =  ("", "initial"), c4 =  ("", "initial"), c5 =  ("", "initial") ))
+  global current_row 
+  current_row += 1
 
-f = open("./static/wordle.css", "r")
+def evaulate():
+   position = 0 
+   global current_row 
+   for letter in save_data[current_row].values():
+    if letter[0].upper() == word[position:position+1]:
+       print("foundit!") 
+       col = 'c' + str(position)
+       save_data[current_row][col] = (letter[0].upper(), 'correct')
+
+    elif (word.__contains__(letter[0].upper())):
+       print("Found it but not here!")
+
+    else:
+      print("Not found")  
+
+    position += 1    
+
 
 class MyServer(BaseHTTPRequestHandler):
     def _set_response(self, type):
@@ -24,9 +58,10 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header('Content-type', type)
         self.end_headers()
         
+        
     def do_GET(self):
         path = self.path
-        print(self.path)
+        f.seek(0)
         if path == "/static/wordle.css":
             type = "text/css"
             self._set_response(type)
@@ -46,7 +81,7 @@ class MyServer(BaseHTTPRequestHandler):
         self.send_header('Location', self.path)
         self.end_headers()
         save_data_to_dict(post_data.decode('utf-8'))
-        
+   
 if __name__ == "__main__":        
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
