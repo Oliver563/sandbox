@@ -12,12 +12,6 @@
   <body>
     <h1 id="title">WORDLE</h1>
     <div id="board">
-      <span id="1-1" class="tile">A</span>
-      <span id="1-2" class="tile">B</span>
-      <span id="1-3" class="tile">C</span>
-      <span id="1-4" class="tile">D</span>
-      <span id="1-5" class="tile">E</span>
-
       <form method="post">
         {% for row in data %}
           {% for key, value in row.items() %}
@@ -26,24 +20,29 @@
         {% endfor %}
           <div>
             <table>
-              {% for row in data %}
+            {% for row in data %}
               {% set r = loop.index %}
               <tr id="{{loop.index}}">
                 {% for key, value in row.items() %}
                   {% set c = loop.index %}
                   <td id="r{{r}}c{{c}}">
-                    <input class="{{value[1]}}" type="text" id="r1c1" name="r{{r}}c{{c}}" value="{{value[0]}}" maxlength="1" minlength="1" 
-                      size="1" pattern="[A-Za-z]{1}" style="text-transform: uppercase">
+                    <input class="{{value[1]}}" type="text" id="r{{r}}c{{c}}" name="r{{r}}c{{c}}" value="{{value[0]}}" maxlength="1" minlength="1" 
+                      size="1" pattern="[A-Za-z]{1}" style="text-transform: uppercase;text-align: center; vertical-align: middle;">
                   </td>
                 {% endfor %}
               </tr>
-              {% endfor %}
+            {% endfor %}
             </table> 
           </div>
           <div>
             <input type="submit" value="Continue"/>
           </div>
       </form>
+      <!-- <span id="1-1" class="tile">A</span>
+      <span id="1-2" class="tile">B</span>
+      <span id="1-3" class="tile">C</span>
+      <span id="1-4" class="tile">D</span>
+      <span id="1-5" class="tile">E</span> -->
     </div>
     <br>
     <h1 id="answer"></h1>

@@ -12,7 +12,7 @@ hostName = "localhost"
 serverPort = 8080
 save_data = [
     #dict( c1 = "", c2 = "", c3 = "", c4 = "", c5 = "" )
-    dict( c1 = ("", "initial"), c2 =  ("", "initial"), c3 =  ("", "initial"), c4 =  ("", "initial"), c5 =  ("", "initial") )
+    dict( c1 = ("", "tile"), c2 =  ("", "tile"), c3 =  ("", "tile"), c4 =  ("", "tile"), c5 =  ("", "tile") )
 ]
 template = env.get_template("sandbox-template.html")
 f = open("./static/wordle.css", "r")
@@ -30,7 +30,7 @@ def save_data_to_dict(d):
     save_data[row - 1][col] = value
   
   evaulate()
-  save_data.append(dict( c1 = ("", "initial"), c2 =  ("", "initial"), c3 =  ("", "initial"), c4 =  ("", "initial"), c5 =  ("", "initial") ))
+  save_data.append(dict( c1 = ("", "tile"), c2 =  ("", "tile"), c3 =  ("", "tile"), c4 =  ("", "tile"), c5 =  ("", "tile") ))
   global current_row 
   current_row += 1
 
@@ -45,9 +45,13 @@ def evaulate():
 
     elif (word.__contains__(letter[0].upper())):
        print("Found it but not here!")
+       col = 'c' + str(position)
+       save_data[current_row][col] = (letter[0].upper(), 'present')
 
     else:
       print("Not found")  
+      col = 'c' + str(position)
+      save_data[current_row][col] = (letter[0].upper(), 'absent')
 
     position += 1    
 

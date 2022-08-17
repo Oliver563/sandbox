@@ -22,6 +22,11 @@ hr {
     flex-wrap: wrap;
 }
 
+td {
+    text-align: center;
+    vertical-align: center;
+}
+
 .tile {
     /* Box */
     border: 2px solid lightgray;
@@ -42,17 +47,44 @@ hr {
     background-color: #6AAA64;
     color: white;
     border-color: white;
+    border: 2px solid lightgray;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content:center;
+    align-items: center;
 }
 
 .present{
     background-color: #C9B458;
-    color:white;
-    border-color:white;
+    color: white;
+    border-color: white;
+    border: 2px solid lightgray;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content:center;
+    align-items: center;
 }
 
 .absent{
     background-color:#787C7E;
     color: white;
     border-color: white;
+    border: 2px solid lightgray;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content:center;
+    align-items: center;
 
 }
