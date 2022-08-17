@@ -11,9 +11,8 @@ env = Environment(
 hostName = "localhost"
 serverPort = 8080
 
-save_data = [
-    dict(c1=("", "tile"), c2=("", "tile"), c3=(
-        "", "tile"), c4=("", "tile"), c5=("", "tile"))
+save_data = [{ "c1": ("", "tile"), "c2": ("", "tile"), "c3" : (
+        "", "tile"), "c4": ("", "tile"),"c5": ("", "tile") }
 ]
 
 template = env.get_template("sandbox-template.html")
@@ -45,7 +44,9 @@ def save_data_to_dict(d):
         answer = 'Bad luck, the word was ' + word
 
     if (answer == ''):
-        save_data.append(dict(c1=("", "tile"), c2=("", "tile"), c3=("", "tile"), c4=("", "tile"), c5=("", "tile")))
+        save_data.append({ "c1": ("", "tile"), "c2": ("", "tile"), "c3" : (
+        "", "tile"), "c4": ("", "tile"),"c5": ("", "tile") }
+)
         current_row += 1
 
 def evaulate():
