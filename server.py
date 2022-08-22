@@ -3,26 +3,20 @@ from ast import Dict
 from asyncore import write
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from jinja2 import Environment, PackageLoader, select_autoescape
-
-env = Environment(
-    loader=PackageLoader("server"),
-    autoescape=select_autoescape())
-
-hostName = "localhost"
-serverPort = 8080
+import random
 
 save_data = [{ "c1": ("", "tile"), "c2": ("", "tile"), "c3" : (
         "", "tile"), "c4": ("", "tile"),"c5": ("", "tile") }
 ]
-
-template = env.get_template("sandbox-template.html")
 
 current_path = os.path.dirname(__file__)
 f = open(current_path + "\static\wordle.css", "r")
 static_content = bytes(f.read(), "utf-8")
 f.close()
 
-word = "WRITE"
+words = ['WRITE','FOUND','COUNT','TIGER','FIGHT','DREAD','SOUND','AUDIO','INPUT','DOUBT','TROOP']
+word = (random.choice(words))
+print(word)
 
 current_row = 0
 answer = ''
@@ -45,8 +39,7 @@ def save_data_to_dict(d):
 
     if (answer == ''):
         save_data.append({ "c1": ("", "tile"), "c2": ("", "tile"), "c3" : (
-        "", "tile"), "c4": ("", "tile"),"c5": ("", "tile") }
-)
+        "", "tile"), "c4": ("", "tile"),"c5": ("", "tile") })
         current_row += 1
 
 def evaulate():
@@ -107,10 +100,15 @@ class MyServer(BaseHTTPRequestHandler):
         if (answer == ''):
             save_data_to_dict(post_data.decode('utf-8'))
 
-
 if __name__ == "__main__":
+
+    env = Environment(loader=PackageLoader("server"),autoescape=select_autoescape())
+
+    hostName = "localhost"
+    serverPort = 8080
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Server started http://%s:%s" % (hostName, serverPort))
+    template = env.get_template("sandbox-template.html")
 
     try:
         webServer.serve_forever()
