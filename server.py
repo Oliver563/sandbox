@@ -14,8 +14,8 @@ f = open(current_path + "\static\wordle.css", "r")
 static_content = bytes(f.read(), "utf-8")
 f.close()
 
-words = ['WRITE','FOUND','COUNT','TIGER','FIGHT','DREAD','SOUND','AUDIO','INPUT','DOUBT','TROOP']
-word = (random.choice(words))
+word = (random.choice(open("words.txt").read().split()))
+word = word.upper()
 print(word)
 
 current_row = 0
