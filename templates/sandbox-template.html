@@ -8,32 +8,31 @@
   <link rel="stylesheet" href="static/wordle.css">
 </head>
 <script>
-  window.onload = function() {
+  window.onload = function() { 
     var elements = document.getElementsByTagName('input')
     for (let element of elements) {
       element.addEventListener('focus', function (event)  {
-        var id = event.srcElement.id
+        var id = event.target.id // sets id as the element which triggered event
         var cell = document.getElementById(id);
-        cell.value="";
-        cell.addEventListener('keyup', function eventHandler(event) {
-          event.preventDefault();
-          var id = event.srcElement.id
-          var row = parseInt(id.substr(1,1))
+        cell.value=""; //sets the cell to nothing when focused for efficiency
+        cell.addEventListener('keyup', function eventHandler(event) { //when a key has been inputed it will then move to the next cell
+          var id = event.target.id
+          var row = parseInt(id.substr(1,1)) //gets the row and col values out of the id
           var col = parseInt(id.substr(3,1)) 
           col++
-          if (col < 6) {
+          if (col < 6) { // when the row has come to the end it will then set focus to the next table id
             var nextId = 'r'+row+'c'+col
             var nextCell = document.getElementById(nextId);
             nextCell.focus()
           }
-        }, {once: true});
+        }, {once: true}); // makes sure that the keyup event only fires once
       })
     } 
     var ans = document.getElementById('answer')
     if (ans.innerHTML === "") {
       var table = document.getElementById("tab");
       var lastRow = table.rows.length;
-      document.getElementById('r'+lastRow+'c1').focus();
+      document.getElementById('r'+lastRow+'c1').focus(); // sets focus to the 1st of the row each submit
     }
   }
 </script>
